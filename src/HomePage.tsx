@@ -1,4 +1,4 @@
-import bagAnimation from '/bag-animation.gif';
+import bagAnimation from '/art/bag-animation.gif';
 
 function HomePage() {
     return <>

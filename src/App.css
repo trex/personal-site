@@ -84,8 +84,39 @@ header nav ul {
   flex-direction: column;
 }
 
+/* Art Gallery */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+.image-column {
+  flex: 100%;
+  max-width: 100%;
+  padding: 0 4px;
+}
+
+.image-column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+@media only screen and (min-width: 600px) {
+  .image-column {
+    flex: 40%;
+    max-width: 49%;
+  }
+}
+
 @media only screen and (min-width: 768px) {
   .site-content {
-    margin: 80px 20px 0 20px;
+    margin-top: 80px;
+  }
+
+  .image-column {
+    flex: 20%;
+    max-width: 25%;
   }
 }

@@ -1,6 +1,6 @@
 import HamburgerButton from './HamburgerButton';
 import PageDirectory from './PageDirectory';
-import mushroomBuds from '/mushroom-buds.png';
+import mushroomBuds from '/art/mushroom-buds.png';
 
 
 function Header({ pages: pages, activePage, navOpen, handleNavClick }: 
