@@ -1,57 +1,59 @@
 import Header from './Header.tsx';
 import './App.css'
-import bagAnimation from '/bag-animation.gif';
-import { PageSection } from './PageSection.tsx';
+import PageDirectory from './PageDirectory.tsx';
 import { useState } from 'react';
-
-
+import HomePage from './HomePage.tsx';
+import ArtPage from './ArtPage.tsx';
+import TechnologyPage from './TechnologyPage.tsx';
 
 function App() {
   const [navOpen, setNavOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
-  const navClickHandler = (sectionName: string) => {
-    if (sectionName != "hamburger") {
-      setActiveSection(sectionName);
+  const [activePage, setActivePage] = useState("");
+  const navClickHandler = (pageName: string) => {
+    if (pageName != "hamburger") {
+      setActivePage(pageName);
     }
     setNavOpen(!navOpen);
+
+    // Home can be navigated to from header image, make sure hamburger is closed
+    if (pageName === "home") {
+      setNavOpen(false);
+    }
   }
 
-  const pageSections: PageSection[] = [
-    {
-      name: "home",
-      handleOnClick: () => navClickHandler("home")
+  const pages: PageDirectory = {
+    "home": {
+      handleOnClick: () => navClickHandler("home"),
+      page: <HomePage />
     },
-    {
-      name: "art",
-      handleOnClick: () => navClickHandler("art")
+    "art": {
+      handleOnClick: () => navClickHandler("art"),
+      page: <ArtPage />
     },
-    {
-      name: "technology",
-      handleOnClick: () => navClickHandler("technology")
+    "Technology": {
+      handleOnClick: () => navClickHandler("technology"),
+      page: <TechnologyPage />
     }
-  ];
+  };
 
-  let section = null;
-  switch(activeSection){
+  let pageToDisplay = null;
+  switch(activePage) {
     case "art":
-      section = <h1>Art section</h1>;
+      pageToDisplay = <ArtPage />;
       break;
     case "technology":
-      section = <h1>Techonology section</h1>;
+      pageToDisplay = <TechnologyPage />;
       break;
     case "home":
     default:
-      section = <>
-        <p>Atti says I just like making creepy stuff.  True, true.</p>
-        <img src={bagAnimation} alt="Bag Animation" />
-      </>
-  }
+      pageToDisplay = <HomePage />;
+  };
 
   return (
     <>
-      <Header pageSections={pageSections} activeSection={activeSection} navOpen={navOpen} handleNavClick={() => navClickHandler("hamburger")} />
+      <Header pages={pages} activePage={activePage} navOpen={navOpen} handleNavClick={() => navClickHandler("hamburger")} />
       <div className="site-content">
-        {section}
+        {pageToDisplay}
       </div>
     </>
   )

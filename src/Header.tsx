@@ -1,20 +1,22 @@
 import HamburgerButton from './HamburgerButton';
-import { PageSection } from './PageSection';
+import PageDirectory from './PageDirectory';
 import mushroomBuds from '/mushroom-buds.png';
 
 
-function Header({ pageSections, activeSection, navOpen, handleNavClick }: { pageSections: Array<PageSection>, activeSection: string, navOpen: Boolean, handleNavClick: () => void; }) {
+function Header({ pages: pages, activePage, navOpen, handleNavClick }: 
+    { pages: PageDirectory, activePage: string, navOpen: Boolean, handleNavClick: () => void; }) {
     return (
         <header>
             <nav>
                 <img className="nav-item" 
-                    onClick={pageSections.find((section) => section.name === "home")?.handleOnClick} 
+                    onClick={pages.home.handleOnClick} 
                     src={mushroomBuds} alt="Mushroom Buddies" />
                 {navOpen ? (
                     <ul>
-                        {pageSections.map((section) => 
-                            <li className={`nav-item ${activeSection===section.name ? "active" : ""}`} key={section.name} onClick={section.handleOnClick}>
-                                {section.name}
+                        {Object.keys(pages).map((page) => 
+                            <li className={`nav-item ${activePage===page ? "active" : ""}`} 
+                            key={page} onClick={pages[page].handleOnClick}>
+                                {page}
                             </li>
                         )}
                     </ul>
