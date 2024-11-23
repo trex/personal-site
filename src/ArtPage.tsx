@@ -83,7 +83,10 @@ function ArtPage() {
                     <div className="image-column" key={index}>
                         {
                             images.slice(index * columnSize, (index + 1) * columnSize).map((image) => (
-                                <img key={image.alt} src={image.src} alt={image.alt} />
+                                <div className="image-container" key={image.alt}>
+                                    <img src={image.src} alt={image.alt} />
+                                    <div className="image-description">{image.alt}</div>
+                                </div>
                             ))
                         }
                     </div>
