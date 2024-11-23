@@ -3,15 +3,17 @@ import { PageSection } from './PageSection';
 import mushroomBuds from '/mushroom-buds.png';
 
 
-function Header({ pageSections, navOpen, handleNavClick }: { pageSections: Array<PageSection>, navOpen: Boolean, handleNavClick: () => void; }) {
+function Header({ pageSections, activeSection, navOpen, handleNavClick }: { pageSections: Array<PageSection>, activeSection: string, navOpen: Boolean, handleNavClick: () => void; }) {
     return (
         <header>
             <nav>
-                <img src={mushroomBuds} alt="Mushroom Buddies" />
+                <img className="nav-item" 
+                    onClick={pageSections.find((section) => section.name === "home")?.handleOnClick} 
+                    src={mushroomBuds} alt="Mushroom Buddies" />
                 {navOpen ? (
                     <ul>
                         {pageSections.map((section) => 
-                            <li className="nav-item" key={section.name} onClick={section.handleOnClick}>
+                            <li className={`nav-item ${activeSection===section.name ? "active" : ""}`} key={section.name} onClick={section.handleOnClick}>
                                 {section.name}
                             </li>
                         )}

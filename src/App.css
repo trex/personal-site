@@ -20,7 +20,6 @@ header nav h1 {
   padding-left: 3%;
   font:  30px/1.15em raleway,sans-serif;
   text-align: center;
-  
 }
 
 header nav img {
@@ -32,15 +31,12 @@ header nav ul {
   flex-direction: row;
   align-items: center;
   height: 100%;
-  gap: 30%;
+  gap: 12%;
   list-style: none;
+  padding-left: 0;
 }
 
-header nav ul li:hover {
-  color: rgb(35, 35, 35); /* Change text color on hover */
-  background-color: rgba(200, 200, 200, 0.5); /* Optional: Change background color on hover */
-  /* Add any other styles you want on hover */
-}
+
 
 .nav-button {
   display: inline-block;
@@ -68,6 +64,15 @@ header nav ul li:hover {
 
 .nav-item {
   cursor: pointer;
+}
+
+.nav-item:hover {
+  color: rgb(35, 35, 35);
+  background-color: rgba(200, 200, 200, 0.5);
+}
+
+.nav-item.active {
+  color: darkviolet;
 }
 
 .site-content {
