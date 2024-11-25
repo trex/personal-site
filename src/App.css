@@ -108,15 +108,17 @@ header nav ul {
   display: inline-block;
 }
 
-.image-description {
+.image-attributes {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   top: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   margin-top: 8px;
@@ -125,7 +127,29 @@ header nav ul {
   transition: opacity 0.3s;
 }
 
-.image-container:hover .image-description {
+.image-title {
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+.image-year {
+  font-weight: 200;
+  font-size: 0.5rem;
+}
+
+.image-medium {
+  font-weight: 400;
+  font-size: .8rem;
+}
+
+.image-statement {
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.0;
+  text-overflow: ellipsis;
+}
+
+.image-container:hover .image-attributes {
   opacity: 1;
 }
 
