@@ -3,12 +3,12 @@ import './App.css'
 import PageDirectory from './PageDirectory.tsx';
 import { useState } from 'react';
 import HomePage from './HomePage.tsx';
-import ArtPage from './ArtPage.tsx';
-import TechnologyPage from './TechnologyPage.tsx';
+import CreationsPage from './CreationsPage.tsx';
+import AboutPage from './AboutPage.tsx';
 
 function App() {
   const [navOpen, setNavOpen] = useState(false);
-  const [activePage, setActivePage] = useState("");
+  const [activePage, setActivePage] = useState("home");
   const navClickHandler = (pageName: string) => {
     if (pageName != "hamburger") {
       setActivePage(pageName);
@@ -26,23 +26,23 @@ function App() {
       handleOnClick: () => navClickHandler("home"),
       page: <HomePage />
     },
-    "art": {
-      handleOnClick: () => navClickHandler("art"),
-      page: <ArtPage />
+    "creations": {
+      handleOnClick: () => navClickHandler("creations"),
+      page: <CreationsPage />
     },
-    "Technology": {
-      handleOnClick: () => navClickHandler("technology"),
-      page: <TechnologyPage />
+    "about": {
+      handleOnClick: () => navClickHandler("about"),
+      page: <AboutPage />
     }
   };
 
   let pageToDisplay = null;
   switch(activePage) {
-    case "art":
-      pageToDisplay = <ArtPage />;
+    case "creations":
+      pageToDisplay = <CreationsPage />;
       break;
-    case "technology":
-      pageToDisplay = <TechnologyPage />;
+    case "about":
+      pageToDisplay = <AboutPage />;
       break;
     case "home":
     default:

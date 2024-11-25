@@ -21,7 +21,7 @@ function Header({ pages: pages, activePage, navOpen, handleNavClick }:
                         )}
                     </ul>
                 ) : (
-                    <h1>things by t</h1>
+                    <h1>{activePage}</h1>
                 )}
                 
                 <HamburgerButton open={navOpen} handleNavClick={handleNavClick}></HamburgerButton>

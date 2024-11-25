@@ -17,7 +17,7 @@ header nav {
 }
 
 header nav h1 {
-  padding-left: 3%;
+  padding-right: 3%;
   font:  30px/1.15em raleway,sans-serif;
   text-align: center;
 }
@@ -84,7 +84,13 @@ header nav ul {
   flex-direction: column;
 }
 
-/* Art Gallery */
+/* Home Page */
+.splash-image {
+  width: 95%;
+  height: auto;
+}
+
+/* Creations Page */
 .gallery {
   display: flex;
   flex-wrap: wrap;
@@ -151,6 +157,25 @@ header nav ul {
 
 .image-container:hover .image-attributes {
   opacity: 1;
+}
+
+/* About page */
+.about-headshot {
+  width: 40%;
+  clip-path: circle();
+  margin: 15px;
+}
+
+.headshot-caption {
+  font-weight: 200;
+  font-size: .6rem;
+  color: #777;
+}
+
+.bio {
+  line-height: 1.1;
+  text-align: justify;
+  padding: 25px;
 }
 
 @media only screen and (min-width: 600px) {

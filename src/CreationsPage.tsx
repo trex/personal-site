@@ -1,6 +1,6 @@
 import { images } from './image-gallery';
 
-function ArtPage() {
+function CreationsPage() {
     const columns = 4;
     const columnSize = Math.ceil(images.length / columns);
 
@@ -29,4 +29,4 @@ function ArtPage() {
     );
 }
 
-export default ArtPage;
+export default CreationsPage;

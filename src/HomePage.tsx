@@ -2,8 +2,8 @@ import bagAnimation from '/art/bag-animation.gif';
 
 function HomePage() {
     return <>
-        <p>Atti says I just like making creepy stuff.  True, true.</p>
-        <img src={bagAnimation} alt="Bag Animation" />
+        <p>t sure does like making things</p>
+        <img className="splash-image" src={bagAnimation} alt="Bag Animation" />
     </>
 }
 
