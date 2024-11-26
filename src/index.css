@@ -17,6 +17,7 @@ body {
   display: flex;
   width: 100vw;
   height: auto;
+  background-color: white;
 }
 
 #root{

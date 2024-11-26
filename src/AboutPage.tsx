@@ -1,3 +1,4 @@
+import ContactForm from './ContactForm';
 import tAndATinyFlower from '/t-and-a-tiny-flower.jpg';
 
 function AboutPage() {
@@ -23,6 +24,7 @@ function AboutPage() {
                 glimpse into their unique vision and passion.
             </p>
         </div>
+        <ContactForm />
     </>;
 }
 

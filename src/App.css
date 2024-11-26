@@ -3,6 +3,7 @@ header {
   height: 80px;
   width: 100vw;
   background-color: white;
+  z-index: 16;
 }
 
 header nav {
@@ -88,6 +89,7 @@ header nav ul {
 .splash-image {
   width: 95%;
   height: auto;
+  margin-bottom: 25px;
 }
 
 /* Creations Page */
@@ -176,6 +178,41 @@ header nav ul {
   line-height: 1.1;
   text-align: justify;
   padding: 25px;
+}
+
+/* Contact Form */
+.contact-form {
+  width: 95%;
+  height: auto;
+}
+
+.contact-form h1 {
+  margin: 20px 20px 0 20px;
+}
+
+.contact-form #message, #subject {
+  width: 95%;
+  padding: 20px 0 20px 20px;
+  margin: 10px 20px 0 20px;
+  border-radius: 5px;
+  border: 1px solid rgb(255, 166, 242);
+  box-shadow:  1px 1px rgb(255, 166, 242),
+  3px 2px 2px rgb(255, 0, 238);             
+}
+
+.contact-form button {
+  margin: 0 0 20px 20px;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid rgb(112, 255, 255);
+  box-shadow:  1px 1px rgb(112, 255, 255),
+  3px 2px 2px rgb(0, 72, 255); 
+  font-weight: 600;
+}
+
+.contact-form button:hover {
+  background-color:rgb(184, 255, 255);
+  font-style: oblique;
 }
 
 @media only screen and (min-width: 600px) {
