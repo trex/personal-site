@@ -10,7 +10,10 @@ function ContactForm() {
         try {
             const response = await fetch('https://trex-receiveandforwardformdata.web.val.run', {
                 method: 'POST',
-                body: formData,
+                body: JSON.stringify(formData),
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
 
             if (response.ok) {
