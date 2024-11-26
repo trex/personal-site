@@ -213,6 +213,14 @@ header nav ul {
   font-style: oblique;
 }
 
+.contact-form .success-message {
+  margin: 0 0 20px 20px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-shadow:  1px 1px rgb(255, 166, 242),
+  3px 2px 2px rgb(255, 0, 238);    
+}
+
 /* Footer */
 footer {
   display: flex;
@@ -220,7 +228,7 @@ footer {
   margin: 20px;
 }
 
-.social-logo {
+footer .social-logo {
   width: 75px;
   height: auto;
 }
