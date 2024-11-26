@@ -5,20 +5,23 @@ function ContactForm() {
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const formData = new FormData(event.currentTarget as HTMLFormElement);
+        const formElement = event.currentTarget as HTMLFormElement;
+        const formData = new FormData(formElement);
+        const jsonData = Object.fromEntries(formData);
 
         try {
             const response = await fetch('https://trex-receiveandforwardformdata.web.val.run', {
                 method: 'POST',
-                body: JSON.stringify(formData),
+                body: JSON.stringify(jsonData),
                 headers: {
                     "Content-Type": "application/json",
                 },
             });
 
-            if (response.ok) {
+            const responseData = await response.json();
+            if (response.ok && responseData.success) {
                 setSuccessMessage('Your message has been sent successfully!');
-                (event.currentTarget as HTMLFormElement).reset();
+                formElement.reset();
             } else {
                 setSuccessMessage('There was an error sending your message.');
             }
