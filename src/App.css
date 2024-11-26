@@ -37,8 +37,6 @@ header nav ul {
   padding-left: 0;
 }
 
-
-
 .nav-button {
   display: inline-block;
   cursor: pointer;
@@ -213,6 +211,18 @@ header nav ul {
 .contact-form button:hover {
   background-color:rgb(184, 255, 255);
   font-style: oblique;
+}
+
+/* Footer */
+footer {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.social-logo {
+  width: 75px;
+  height: auto;
 }
 
 @media only screen and (min-width: 600px) {
