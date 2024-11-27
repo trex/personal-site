@@ -5,7 +5,7 @@ import { useState } from 'react';
 import HomePage from './HomePage.tsx';
 import CreationsPage from './CreationsPage.tsx';
 import AboutPage from './AboutPage.tsx';
-import githubLogo from '/github-logo.png';
+import Footer from './Footer.tsx';
 
 function App() {
   const [navOpen, setNavOpen] = useState(false);
@@ -56,11 +56,7 @@ function App() {
       <div className="site-content">
         {pageToDisplay}
       </div>
-      <footer>
-        <a href="https://github.com/trex">
-          <img className="social-logo" src={githubLogo} alt="GitHub Logo" />
-        </a>
-      </footer>
+      <Footer />
     </>
   )
 }
