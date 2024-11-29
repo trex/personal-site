@@ -12,8 +12,11 @@ function CreationsPage() {
                         {
                             images.slice(index * columnSize, (index + 1) * columnSize).map((image) => (
                                 <div className="image-container" key={image.title}>
-                                    <img src={image.src} alt={image.title} />
-                                    <div className="image-attributes">
+                                    {image.mediaType === "image" ? <img src={image.src} alt={image.title} />
+                                        : <video controls poster={image.poster}>
+                                            <source src={image.src}></source>    
+                                        </video>}
+                                    <div className={`image-attributes ${image.mediaType === "video" ? "video" : ""}`}>
                                         <div className="image-title">{image.title}</div>
                                         <div className="image-year">{image.year}</div>
                                         <div className="image-medium">{image.medium}</div>

@@ -103,7 +103,7 @@ header nav ul {
   padding: 0 4px;
 }
 
-.image-column img {
+.image-column img, video {
   margin-top: 8px;
   vertical-align: middle;
   width: 100%;
@@ -112,6 +112,7 @@ header nav ul {
 .image-container {
   position: relative;
   display: inline-block;
+  width: 100%;
 }
 
 .image-attributes {
@@ -131,6 +132,10 @@ header nav ul {
   padding: 5px;
   opacity: 0;
   transition: opacity 0.3s;
+}
+
+.image-attributes.video {
+  bottom: 20%;
 }
 
 .image-title {
