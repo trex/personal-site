@@ -10,6 +10,7 @@ import mushroomBuds from '/art/mushroom-buds.png';
 import newShit from '/art/new-shit.jpg';
 import ousideJulesCover from '/art/outside-jules-cover.png';
 import outsideJulesSleeping from '/art/outside-jules-sleeping.png';
+import personalSite from '/art/personal-site.png';
 import pokedex from '/art/pokedex.png';
 import spinningHeads from '/art/spinning-heads.jpg';
 import spiritOfTheTree from '/art/spirit-of-the-tree.jpg';
@@ -17,6 +18,13 @@ import totoroMural from '/art/totoro-mural.png';
 import yeehawPadnah from '/art/yeehaw-padnah.png'
 import yieldSign from '/art/yield.jpg';
 import yokaiCritters from '/art/yokai-critters-2.gif';
+
+
+export const filteredImages = (filters: Set<string>) => {
+    return images.filter(image => {
+        return [...image.tags].some(filter => filters.has(filter));
+    })
+}
 
 export const images = [
     {
@@ -26,7 +34,8 @@ export const images = [
         title: "Fireworkin' It",
         year: 2018,
         medium: "Interactive custom software & hardware, video projector",
-        statement: "A dancefloor controller provides input to visualization software, displayed by a rear-lit projector."
+        statement: "A dancefloor controller provides input to visualization software, displayed by a rear-lit projector.",
+        tags: new Set(["art", "technology"])
     },
     {
         src: ousideJulesCover,
@@ -34,7 +43,8 @@ export const images = [
         title: "Outside Jules Cover",
         year: 2024,
         medium: "Pen & Ink, Digitally Colored",
-        statement: "The cover for Outside Jules, a comic I write and illustrate."
+        statement: "The cover for Outside Jules, a comic I write and illustrate.",
+        tags: new Set(["art"])
     },
     {
         src: cantWearNikes,
@@ -42,7 +52,8 @@ export const images = [
         title: "I Can't Wear Nikes",
         year: 2014,
         medium: "Ink & Watercolor",
-        statement: "Illustration of a moment and quote from my 4y.o. son."
+        statement: "Illustration of a moment and quote from my 4y.o. son.",
+        tags: new Set(["art"])
     },
     {
         src: boletePetey,
@@ -50,7 +61,8 @@ export const images = [
         title: "Bolete Petey",
         year: 2024,
         medium: "Pen & Ink, Digitally Colored",
-        statement: "Main character from We Happen to be Mushrooms, a comic strip I write and Illustrate."
+        statement: "Main character from We Happen to be Mushrooms, a comic strip I write and Illustrate.",
+        tags: new Set(["art"])
     },
     {
         src: pokedex,
@@ -58,7 +70,8 @@ export const images = [
         title: "Pokedex",
         year: 2024,
         medium: "Vite, React & the PokeAPI",
-        statement: "Responsive pokedex app; I used this project to learn React, and refresh my web design & development muscles."
+        statement: "Responsive pokedex app; I used this project to learn React, and refresh my web design & development muscles.",
+        tags: new Set(["art", "technology"])
     },
     {
         src: spiritOfTheTree,
@@ -66,7 +79,17 @@ export const images = [
         title: "Spirit of the Tree",
         year: 2022,
         medium: "Watercolor",
-        statement: "Sometimes the trees talk to me. Sometimes I listen. Sometimes I talk back."
+        statement: "Sometimes the trees talk to me. Sometimes I listen. Sometimes I talk back.",
+        tags: new Set(["art"])
+    },
+    {
+        src: personalSite,
+        mediaType: "image",
+        title: "Personal Site",
+        year: 2024,
+        medium: "Vite, React, CSS, val.town",
+        statement: "Responsive personal website. Pretty meta putting it up here, huh?!.",
+        tags: new Set(["technology"])
     },
     {
         src: newShit,
@@ -74,7 +97,8 @@ export const images = [
         title: "Time for Some New Shit",
         year: 2009,
         medium: "Marker",
-        statement: "I like drawing creatures with eyes."
+        statement: "I like drawing creatures with eyes.",
+        tags: new Set(["art"])
     },
     {
         src: mushroomBuds,
@@ -82,7 +106,8 @@ export const images = [
         title: "We Happen to be Mushrooms",
         year: 2024,
         medium: "Pen & Ink, Digitally Colored",
-        statement: "These three mushroom buds are the main characters of We Happen to be Mushrooms, a little comic strip."
+        statement: "These three mushroom buds are the main characters of We Happen to be Mushrooms, a little comic strip.",
+        tags: new Set(["art"])
     },
     {
         src: totoroMural,
@@ -90,7 +115,8 @@ export const images = [
         title: "Totoro Mural",
         year: 2022,
         medium: "Acrylic paints",
-        statement: "My Neighbor Totoro mural that I may or may not ever finish."
+        statement: "My Neighbor Totoro mural that I may or may not ever finish.",
+        tags: new Set(["art"])
     },
     {
         src: avavaBuilder,
@@ -98,7 +124,8 @@ export const images = [
         title: "Avava Toy Builder",
         year: 2014,
         medium: "HTML5, CSS3, JS",
-        statement: "The avava-builder app lets users create custom creatures from various parts, export them for 3D printing, and bring them to life. I pitched it to 1000+ at New Tech Denver and to the TechStars/Disney Accelerator."
+        statement: "The avava-builder app lets users create custom creatures from various parts, export them for 3D printing, and bring them to life. I pitched it to 1000+ at New Tech Denver and to the TechStars/Disney Accelerator.",
+        tags: new Set(["art", "technology"])
     },
     {
         src: yieldSign,
@@ -106,7 +133,8 @@ export const images = [
         title: "Yield",
         year: 2015,
         medium: "Concrete, wood, old computers and wires and shit",
-        statement: "A physical manifestation of my dynamic and varied feelings about and relationship with technology."
+        statement: "A physical manifestation of my dynamic and varied feelings about and relationship with technology.",
+        tags: new Set(["art", "technology"])
     },
     {
         src: outsideJulesSleeping,
@@ -114,7 +142,8 @@ export const images = [
         title: "Jules Waking",
         year: 2024,
         medium: "Pen & Ink, Digitally Colored",
-        statement: "Opening sequence from Outside Jules."
+        statement: "Opening sequence from Outside Jules.",
+        tags: new Set(["art"])
     },
     {
         src: blueOysters,
@@ -122,7 +151,8 @@ export const images = [
         title: "Blue Oysters",
         year: 2020,
         medium: "Watercolor",
-        statement: "Blue oyster mushrooms I painted for my mom, and then she gave back to me."
+        statement: "Blue oyster mushrooms I painted for my mom, and then she gave back to me.",
+        tags: new Set(["art"])
     },
     {
         src: bagAnimation,
@@ -130,7 +160,8 @@ export const images = [
         title: "Critter Bag Animation",
         year: 2016,
         medium: "Colored Pencil, Stop-Motion Animation",
-        statement: "Animation I created for a brownbag lunch lesson I gave at SendGrid on stop-motion animation."
+        statement: "Animation I created for a brownbag lunch lesson I gave at SendGrid on stop-motion animation.",
+        tags: new Set(["art"])
     },
     {
         src: moundToTheWind,
@@ -138,7 +169,8 @@ export const images = [
         title: "Mound to the Wind",
         year: 2017,
         medium: "Pen & Ink, Watercolor",
-        statement: "Not much to say about this one."
+        statement: "Not much to say about this one.",
+        tags: new Set(["art"])
     },
     {
         src: spinningHeads,
@@ -146,7 +178,8 @@ export const images = [
         title: "Spinning Heads",
         year: 2022,
         medium: "Watercolor",
-        statement: "Sometimes my head feels a little spinny like."
+        statement: "Sometimes my head feels a little spinny like.",
+        tags: new Set(["art"])
     },
     {
         src: yokaiCritters,
@@ -154,7 +187,8 @@ export const images = [
         title: "Yokai Critters",
         year: 2018,
         medium: "Haxe / JavaScript",
-        statement: "Cross-platform, networked, 4-person PacMan Battle Royale clone."
+        statement: "Cross-platform, networked, 4-person PacMan Battle Royale clone.",
+        tags: new Set(["art", "technology"])
     },
     {
         src: yeehawPadnah,
@@ -162,6 +196,7 @@ export const images = [
         title: "Yeehaw Padnah",
         year: 2024,
         medium: "Pen & Ink, Digitally Colored",
-        statement: "Video game loading screen from Outside Jules."
+        statement: "Video game loading screen from Outside Jules.",
+        tags: new Set(["art"])
     }
 ];
