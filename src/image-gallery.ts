@@ -1,10 +1,13 @@
+import Post from './post';
+import fireworkinItPost from './posts/fireworkin-it';
+
 import avavaBuilder from '/art/avava-builder.gif';
 import bagAnimation from '/art/bag-animation.gif';
 import blueOysters from '/art/blue-oysters.jpg';
 import boletePetey from '/art/bolete-petey.jpg';
 import cantWearNikes from '/art/cant-wear-nikes.jpg';
 import fireworkinIt from '/art/fireworkin-it.mp4';
-import fireworkinItPoster from '/art/fireworkin-it-poster.jpg';
+import fireworkinItPoster from '/art/fireworkin-it-controller.jpg';
 import moundToTheWind from '/art/mound-to-the-wind.png';
 import mushroomBuds from '/art/mushroom-buds.png';
 import newShit from '/art/new-shit.jpg';
@@ -20,13 +23,25 @@ import yieldSign from '/art/yield.jpg';
 import yokaiCritters from '/art/yokai-critters-2.gif';
 
 
+export interface Image {
+    src: string;
+    poster?: string;
+    mediaType: string;
+    title: string;
+    year: number;
+    medium: string;
+    statement: string;
+    tags: Set<string>;
+    post?: Post;
+}
+
 export const filteredImages = (filters: Set<string>) => {
     return images.filter(image => {
         return [...image.tags].some(filter => filters.has(filter));
     })
 }
 
-export const images = [
+const images: Image[] = [
     {
         src: fireworkinIt,
         poster: fireworkinItPoster,
@@ -35,7 +50,8 @@ export const images = [
         year: 2018,
         medium: "Interactive custom software & hardware, video projector",
         statement: "A dancefloor controller provides input to visualization software, displayed by a rear-lit projector.",
-        tags: new Set(["art", "technology"])
+        tags: new Set(["art", "technology"]),
+        post: fireworkinItPost
     },
     {
         src: ousideJulesCover,

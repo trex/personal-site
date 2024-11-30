@@ -1,5 +1,6 @@
 import { useReducer } from 'react';
 import { filteredImages } from './image-gallery';
+import CreationPortal from './CreationPortal';
 
 interface CreationState {
     activeFilters: Set<string>;
@@ -87,6 +88,9 @@ function CreationsPage() {
                                             <div className="image-year">{image.year}</div>
                                             <div className="image-medium">{image.medium}</div>
                                             <div className="image-statement">{image.statement}</div>
+                                            {
+                                                image.post && <CreationPortal post={image.post}/>
+                                            }
                                         </div>
                                     </div>
                                 ))

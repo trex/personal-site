@@ -1,9 +1,16 @@
+hr {
+  width: 100%;
+  border: none;
+  border-top: 3px double;
+  color: #acacac;
+}
+
 header {
   position: fixed;
   height: 80px;
   width: 100vw;
   background-color: white;
-  z-index: 16;
+  z-index: 2;
 }
 
 header nav {
@@ -251,6 +258,89 @@ header nav ul {
   font-weight: 600;
   text-shadow:  1px 1px rgb(255, 166, 242),
   3px 2px 2px rgb(255, 0, 238);    
+}
+
+/* Portal Modal */
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: rgb(100, 100, 111) 0px 7px 29px 10px;
+  background-color: white;
+  border: 2px solid rgb(240, 240, 240);
+  border-radius: 12px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -40%);
+  width: 80%;
+  height: 70%;
+  padding: 25px;
+  overflow-y: auto;
+  z-index: 3;
+}
+
+.portal-open-button {
+	margin-top: 15px;
+}
+
+.portal-close-button {
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	border-radius: 50%;
+	padding: 4px 10px;
+	font-size: 1.5rem;
+	font-weight: 600;
+	filter: drop-shadow(4px 4px 4px #666);
+}
+
+/* Posts */
+.post-title {
+  margin: 0;
+  font: var(--font_1);
+}
+
+.post-date {
+  margin: 0;
+  font-size: .7em;
+  color:#676767;
+}
+
+.post-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  align-items: center;
+}
+
+.post-section-heading {
+  font: var(--font_2);
+}
+
+.post-section-image-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: auto;
+  justify-content: center;
+}
+
+.post-section-image {
+  width: 30%;
+  height: auto;
+  padding: 15px;
+}
+
+.post-section-copy p {
+  margin: 12px 0 12px 0;
+}
+
+.post-links {
+  justify-content: space-evenly;
+  display: flex;
+  width: 100%;
 }
 
 /* Footer */

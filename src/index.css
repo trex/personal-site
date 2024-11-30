@@ -1,5 +1,5 @@
 :root {
-  font-family: Arial,Helvetica,sans-serif;
+  font-family: raleway,Arial,Helvetica,sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -10,6 +10,14 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --font_1: normal normal normal 22px/1.79rem raleway,sans-serif;
+  --font_2: normal normal normal 28px/1.375rem raleway,sans-serif;
+}
+
+@font-face {
+  font-family: "raleway";
+  src: url("/Raleway-VariableFont_wght.ttf");
 }
 
 body {
