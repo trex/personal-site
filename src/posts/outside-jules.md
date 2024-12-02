@@ -14,10 +14,10 @@ tags:
 ---
 
 [You can read the full first issue of Outside Jules on Tapas](https://tapas.io/series/OutsideJules/info).
-![Outside Jules Cover Art](/public/art/outside-jules-cover.png)
+![Outside Jules Cover Art](/art/outside-jules-cover.png)
 ## Story Synopsis
 Jules has an highly active imagination and a fascination for minutia, and their plush sidekick Germs is always game for adventure.  Their favorite place in the world is on mama's farm where they can escape into the microcosms that blossom between the rows.  When trouble strikes in Ant Queendom, Jules and Germs hop into action and stand in solidarity with their micro-pals.
-![Jules and Germs Waking](/public/art/outside-jules-sleeping.png)
+![Jules and Germs Waking](/art/outside-jules-sleeping.png)
 ## Inspiration
 I was inspired to write Outside Jules for a number of reasons.  I have been wanting to write and illustrate a story for a long time and writing has always been more challenging for me.  
 
@@ -27,6 +27,6 @@ I wrote Jules as a non-binary character because that is how I identify, and it w
 
 I wrote Jules as a black character because several years ago a peruvian artist friend of mine made me aware of the rarity that white artists draw or depict subjects of color.  I started looking for occurences of BIPOC characters in my favorite white artist's work, and talking with other white artists about their relationship to subjects of color in their artwork.  So, creating Jules and their mama as BIPOC characters was opportunity in equal parts: personal challenge, exploration of my own internalized racism, and to research and learn more about black culture and experience.
 ## Project Status
-![Cow Pals Loading Screen...](/public/art/yeehaw-padnah.png)
+![Cow Pals Loading Screen...](/art/yeehaw-padnah.png)
 I am currently stalled on this one.  I went ham on the first issue and once I got it finished I needed to take a break.  I know where I want the story to go to, but I don't quite know how to get there yet.  This is a hurdle in my writing journey that I am working to get over, and it is only a matter of time and effort.
-![Jules's Mama at the Farm](/public/art/outside-jules-mama.png)
+![Jules's Mama at the Farm](/art/outside-jules-mama.png)
