@@ -3,9 +3,9 @@ import './App.css'
 import PageDirectory from './PageDirectory.tsx';
 import { useState } from 'react';
 import HomePage from './HomePage.tsx';
-import CreationsPage from './CreationsPage.tsx';
 import AboutPage from './AboutPage.tsx';
 import Footer from './Footer.tsx';
+import ProjectsPage from './ProjectsPage.tsx';
 
 function App() {
   const [navOpen, setNavOpen] = useState(false);
@@ -27,9 +27,9 @@ function App() {
       handleOnClick: () => navClickHandler("home"),
       page: <HomePage />
     },
-    "creations": {
-      handleOnClick: () => navClickHandler("creations"),
-      page: <CreationsPage />
+    "projects": {
+      handleOnClick: () => navClickHandler("projects"),
+      page: <ProjectsPage />
     },
     "about": {
       handleOnClick: () => navClickHandler("about"),
@@ -39,8 +39,8 @@ function App() {
 
   let pageToDisplay = null;
   switch(activePage) {
-    case "creations":
-      pageToDisplay = <CreationsPage />;
+    case "projects":
+      pageToDisplay = <ProjectsPage />;
       break;
     case "about":
       pageToDisplay = <AboutPage />;
