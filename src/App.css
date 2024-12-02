@@ -92,9 +92,14 @@ header nav ul {
 
 /* Home Page */
 .splash-image {
-  width: 95%;
-  height: auto;
-  margin-bottom: 25px;
+  width: 25%;
+  clip-path: circle();
+  margin: 10px;
+}
+
+.homepage-blurb {
+  width: 75%;
+  text-align: justify;
 }
 
 /* Projects Page */
