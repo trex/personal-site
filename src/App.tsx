@@ -5,11 +5,12 @@ import { useState } from 'react';
 import HomePage from './HomePage.tsx';
 import AboutPage from './AboutPage.tsx';
 import Footer from './Footer.tsx';
+import GamePage from './GamePage.tsx';
 import ProjectsPage from './ProjectsPage.tsx';
 
 function App() {
   const [navOpen, setNavOpen] = useState(false);
-  const [activePage, setActivePage] = useState("home");
+  const [activePage, setActivePage] = useState("game");
   const navClickHandler = (pageName: string) => {
     if (pageName != "hamburger") {
       setActivePage(pageName);
@@ -23,6 +24,10 @@ function App() {
   }
 
   const pages: PageDirectory = {
+    "game": {
+      handleOnClick: () => navClickHandler("game"),
+      page: <GamePage />
+    },
     "home": {
       handleOnClick: () => navClickHandler("home"),
       page: <HomePage />
@@ -39,6 +44,9 @@ function App() {
 
   let pageToDisplay = null;
   switch(activePage) {
+    case "game":
+      pageToDisplay = <GamePage />;
+      break;
     case "projects":
       pageToDisplay = <ProjectsPage />;
       break;
