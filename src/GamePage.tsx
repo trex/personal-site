@@ -8,6 +8,11 @@ interface BoardCell {
     value: string
 }
 
+interface ScoredWord {
+    word: string,
+    score: number
+}
+
 const letterFrequencies = {
     a: 8, b: 2, c: 2, d: 4, e: 12, f: 2, g: 3, h: 2, i: 8,
     j: 1, k: 1, l: 4, m: 2, n: 6, o: 8, p: 2, q: 1, r: 6,
@@ -30,11 +35,15 @@ function initGameBoard() {
                 x: i,
                 y: j,
                 wordPosition: -1,
-                value: weightedPool[Math.floor(Math.random() * weightedPool.length)]
+                value: randomLetter(),
             };
         }    
     }
     return board;
+}
+
+function randomLetter(): string {
+    return weightedPool[Math.floor(Math.random() * weightedPool.length)];
 }
 
 
@@ -43,6 +52,7 @@ export default function GamePage() {
     const [clickedCells, setClickedCells] = useState<Array<BoardCell>>([]);
     const [board, setBoard] = useState(initGameBoard());
     const [validWord, setValidWord] = useState(false);
+    const [scoredWords, setScoredWords] = useState<Array<ScoredWord>>([]);
 
     useEffect(() => {
         setDictionary(new Dictionary());
@@ -88,16 +98,70 @@ export default function GamePage() {
         }).join('');
 
         if (isValidWord(word)) {
-            console.log(`VALID word '${word}'!`);
+            setScoredWords([
+                ...scoredWords,
+                {
+                    word: word,
+                    score: word.length
+                }
+            ])
+            
+            // Update the game board based on the clicked cells
+            const newBoard = board.map(row => [...row]); // Create a copy of the board
+            clickedCells.forEach(cell => {
+                newBoard[cell.x][cell.y].value = ''; // Remove the clicked cell's value
+            });
+
+            // Cascade cells down
+            for (let col = 0; col < 4; col++) {
+                let bottomPointer = 3, topPointer = 3;
+                for (; topPointer >= 0 && bottomPointer >= 0; topPointer--) {
+                    let bottomPointerCell = newBoard[bottomPointer][col];
+                    let topPointerCell = newBoard[topPointer][col];
+                    if (bottomPointerCell.value === '' && topPointerCell.value != '') {
+                        // Move cell down
+                        newBoard[bottomPointer][col] = {
+                            ...bottomPointerCell,
+                            value: topPointerCell.value
+                        };
+                        newBoard[topPointer][col] = {
+                            ...topPointerCell,
+                            value: '',
+                        };
+                    }
+                     // Move pointer to the next empty row
+                     while (bottomPointer >= topPointer && newBoard[bottomPointer][col].value !== '') {
+                        bottomPointer--;
+                    }
+                }
+            }
+
+            // Replace the empty cells from the top
+            for (let row = 0; row < newBoard.length; row++) {
+                for (let column = 0; column < newBoard[row].length; column++) {
+                    if (newBoard[row][column].value === '') {
+                        newBoard[row][column].value = randomLetter();
+                    }
+                }
+            }
+
+            setBoard(newBoard); // Update the board state
+            setClickedCells([]);
+            setValidWord(false);
         } else {
             console.log(`INVALID word '${word}'!`);
         }
-        setClickedCells([]);
-        setValidWord(false);
+    }
+
+    const calculateScore = ():number => {
+        return scoredWords.reduce((accumulator, current) => {
+            return accumulator + current.score;
+        }, 0);
     }
 
     return (
         <div className="game-board">
+            <div className="score">Score: {calculateScore()}</div>
             {board.map((row, i) => (
                 <div key={i} className="board-row">
                     {row.map((cell, j) => { 
@@ -126,6 +190,14 @@ export default function GamePage() {
                 ))}
             </div>
             <button onClick={handleSubmit}>submit</button>
+            <div className='scored-words'>
+                Words:
+                {scoredWords.map((scoredWord) => {
+                    return (
+                        <div className='scored-word'>[{scoredWord.score}] {scoredWord.word}</div>
+                    )
+                })}
+            </div>
         </div>
     );
 }

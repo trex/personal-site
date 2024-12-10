@@ -353,10 +353,12 @@ header nav ul {
 }
 
 .board-cell {
+  display: flex;
   border: 1px solid black;
-  padding: 6px 12px;
-  width: 15px;
-  height: auto;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
 
   --bg-color: rgb(200, 255, 255);
   &.clicked {
