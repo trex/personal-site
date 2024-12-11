@@ -348,6 +348,16 @@ header nav ul {
 }
 
 /* Game */
+.game-page {
+  display: flex;
+  flex-direction: row;
+}
+
+.game-board {
+  display: flex;
+  flex-direction: column;
+}
+
 .board-row {
   display: flex;
 }
@@ -371,6 +381,7 @@ header nav ul {
   gap: 20px;
   margin-top: 30px;
   padding: 6px;
+  align-items: center;
 
   &.valid{
     border: 3px solid green;
@@ -382,7 +393,21 @@ header nav ul {
 
   .selected-letter {
     font-weight: 700;
-    font-size: 1.8em;
+    font-size: 1.5em;
+  }
+}
+
+.submit {
+  margin-left: auto;
+  height: fit-content;
+}
+
+.score-board {
+  margin-left: 25px;
+  padding: 3px;
+  border: 1px solid black;
+  h3 {
+    margin: 0;
   }
 }
 

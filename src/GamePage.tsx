@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { createRef, useEffect, useRef, useState } from 'react';
 import Dictionary from './dictionary';
 
 interface BoardCell {
@@ -26,11 +26,11 @@ for (const [letter, count] of Object.entries(letterFrequencies)) {
     }
 }
 
-function initGameBoard() {
+function initGameBoard(rows: number, cols: number) {
     let board = new Array<Array<BoardCell>>(4);
-    for (let i = 0; i < 4; i++) {
-        board[i] = new Array<BoardCell>(4);
-        for (let j = 0; j < 4; j++) {
+    for (let i = 0; i < rows; i++) {
+        board[i] = new Array<BoardCell>(cols);
+        for (let j = 0; j < cols; j++) {
             board[i][j] = {
                 x: i,
                 y: j,
@@ -47,13 +47,18 @@ function randomLetter(): string {
 }
 
 
-export default function GamePage() {
+export default function GamePage({ rows, cols }: { rows: number, cols: number }) {
     const [dictionary, setDictionary] = useState<Dictionary>();
     const [clickedCells, setClickedCells] = useState<Array<BoardCell>>([]);
-    const [board, setBoard] = useState(initGameBoard());
+    const [board, setBoard] = useState(initGameBoard(rows, cols));
     const [validWord, setValidWord] = useState(false);
     const [scoredWords, setScoredWords] = useState<Array<ScoredWord>>([]);
-
+    const cellRefs = useRef<Array<Array<React.RefObject<HTMLDivElement>>>>(
+        Array.from({ length: rows }, () =>
+            Array(cols).fill(null).map(() => createRef<HTMLDivElement>())
+        )
+    );
+    
     useEffect(() => {
         setDictionary(new Dictionary());
     },[])
@@ -112,9 +117,10 @@ export default function GamePage() {
                 newBoard[cell.x][cell.y].value = ''; // Remove the clicked cell's value
             });
 
+            const fallingAnimations: Array<Promise<void>> = [];
             // Cascade cells down
-            for (let col = 0; col < 4; col++) {
-                let bottomPointer = 3, topPointer = 3;
+            for (let col = 0; col < cols; col++) {
+                let bottomPointer = rows - 1, topPointer = rows - 1;
                 for (; topPointer >= 0 && bottomPointer >= 0; topPointer--) {
                     let bottomPointerCell = newBoard[bottomPointer][col];
                     let topPointerCell = newBoard[topPointer][col];
@@ -128,6 +134,30 @@ export default function GamePage() {
                             ...topPointerCell,
                             value: '',
                         };
+
+                        // Animate the shift
+                        const ref = cellRefs.current[topPointer][col];
+                        const targetRef = cellRefs.current[bottomPointer][col];
+                        if (ref.current && targetRef.current) {
+                            const { y: refY } = ref.current.getBoundingClientRect();
+                            const { y: targetY } = targetRef.current.getBoundingClientRect();
+                            ref.current.style.transform = `translateY(${targetY - refY}px)`;
+                
+                            // Ensure the transition is applied before adding the event listener
+                            ref.current!.style.transition = "transform 1.0s"; // Add transition style
+                            fallingAnimations.push(
+                                new Promise(resolve => {
+                                    const handleTransitionEnd = () => {
+                                        ref.current!.style.transform = "";
+                                        targetRef.current!.textContent = topPointerCell.value;
+                                        ref.current!.textContent = "";
+                                        ref.current!.removeEventListener("transitionend", handleTransitionEnd); // Clean up listener
+                                        resolve();
+                                    };
+                                    ref.current!.addEventListener("transitionend", handleTransitionEnd);
+                                })
+                            );
+                        }
                     }
                      // Move pointer to the next empty row
                      while (bottomPointer >= topPointer && newBoard[bottomPointer][col].value !== '') {
@@ -145,9 +175,15 @@ export default function GamePage() {
                 }
             }
 
-            setBoard(newBoard); // Update the board state
-            setClickedCells([]);
-            setValidWord(false);
+            // Wait for all animations to complete, then update state
+            Promise.all(fallingAnimations).then(() => {
+                setClickedCells([]);
+                setValidWord(false);
+                setBoard(newBoard);
+            }).catch((error) => {
+                console.error("Error in falling animations:", error);
+            });
+           
         } else {
             console.log(`INVALID word '${word}'!`);
         }
@@ -160,41 +196,46 @@ export default function GamePage() {
     }
 
     return (
-        <div className="game-board">
-            <div className="score">Score: {calculateScore()}</div>
-            {board.map((row, i) => (
-                <div key={i} className="board-row">
-                    {row.map((cell, j) => { 
-                        const clickedCell = clickedCells.find((c) => c.x === i && c.y === j);
-                        const backgroundColor = clickedCell 
-                            ? `rgb(${173 - (clickedCell.wordPosition * 17)}, ${216 - (clickedCell.wordPosition * 24)}, ${230 + (clickedCell.wordPosition * 25)})`
-                            : 'rgb(0, 255, 255)';
-                        return (
-                            <div 
-                                key={`${i},${j}`} 
-                                style={{ "--bg-color": backgroundColor } as React.CSSProperties}
-                                className={`board-cell ${clickedCell ? "clicked" : ''}`}
-                                onClick={() => handleCellClick(cell)}
-                            >
-                                {cell.value}
-                            </div>
-                        )
-                    })}
-                </div>
-            ))}
-            <div className={`selected-letters ${validWord ? "valid" : "invalid"}`}>
-                {clickedCells.map((c, i) => (
-                    <div key={i} className="selected-letter">
-                        {c.value} 
+        <div className="game-page">
+            <div className="game-board">
+                {board.map((row, i) => (
+                    <div key={`row-${i}`} className="board-row">
+                        {row.map((cell, j) => { 
+                            const letter = cell.value;
+                            const clickedCell = clickedCells.find((c) => c.x === i && c.y === j);
+                            const backgroundColor = clickedCell 
+                                ? `rgb(${173 - (clickedCell.wordPosition * 17)}, ${216 - (clickedCell.wordPosition * 24)}, ${230 + (clickedCell.wordPosition * 25)})`
+                                : 'rgb(0, 255, 255)';
+                            return (
+                                <div 
+                                    key={`${cell.x}-${cell.y}`} 
+                                    ref={cellRefs.current[i][j]}
+                                    style={{ "--bg-color": backgroundColor } as React.CSSProperties}
+                                    className={`board-cell ${clickedCell ? "clicked" : ''}`}
+                                    onClick={() => handleCellClick(cell)}
+                                >
+                                    {letter}
+                                </div>
+                            )
+                        })}
                     </div>
                 ))}
+                <div className={`selected-letters ${validWord ? "valid" : "invalid"}`}>
+                    {clickedCells.map((c, i) => (
+                        <div key={i} className="selected-letter">
+                            {c.value} 
+                        </div>
+                    ))}
+                    <button className={`submit ${validWord ? "valid" : "invalid"}`} onClick={handleSubmit}>{validWord ? "✅" : "❌"}</button>
+                </div>
+                
             </div>
-            <button onClick={handleSubmit}>submit</button>
-            <div className='scored-words'>
-                Words:
-                {scoredWords.map((scoredWord) => {
+            <div className='score-board'>
+                <h3>Score: [{calculateScore()}]</h3>
+                <hr></hr>
+                {scoredWords.slice().reverse().map((scoredWord, i) => {
                     return (
-                        <div className='scored-word'>[{scoredWord.score}] {scoredWord.word}</div>
+                        <div key={`scored-word-${i}`} className='scored-word'>[{scoredWord.score}] {scoredWord.word}</div>
                     )
                 })}
             </div>

@@ -26,7 +26,7 @@ function App() {
   const pages: PageDirectory = {
     "game": {
       handleOnClick: () => navClickHandler("game"),
-      page: <GamePage />
+      page: <GamePage rows={4} cols={4} />
     },
     "home": {
       handleOnClick: () => navClickHandler("home"),
@@ -42,21 +42,7 @@ function App() {
     }
   };
 
-  let pageToDisplay = null;
-  switch(activePage) {
-    case "game":
-      pageToDisplay = <GamePage />;
-      break;
-    case "projects":
-      pageToDisplay = <ProjectsPage />;
-      break;
-    case "about":
-      pageToDisplay = <AboutPage />;
-      break;
-    case "home":
-    default:
-      pageToDisplay = <HomePage />;
-  };
+  let pageToDisplay = pages[activePage].page;
 
   return (
     <>
