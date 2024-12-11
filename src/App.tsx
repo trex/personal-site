@@ -26,24 +26,16 @@ function RouteWrapper({ element, onEnter }: { element: React.ReactNode, onEnter:
 
 function App() {
   const [navOpen, setNavOpen] = useState(false);
-  const [activePage, setActivePage] = useState("home");
   const navClickHandler = (pageName: string) => {
-    if (pageName != "hamburger") {
-      setActivePage(pageName);
-    }
     setNavOpen(!navOpen);
 
-    // Home can be navigated to from header image, make sure hamburger is closed
-    if (pageName === "home") {
+    // On the root path, also make sure the nav is closed
+    if (pageName === "" || pageName === "home") {
       setNavOpen(false);
     }
   }
 
   const pages: PageDirectory = {
-    "": {
-      element: <HomePage />,
-      hidden: true,
-    },
     "home": {
       element: <HomePage />,
       hidden: false,
@@ -58,14 +50,23 @@ function App() {
     },
     "game": {
       element: <GamePage rows={4} cols={4} />,
-      hidden: true,
+      hidden: false,
     },
   };
 
   return (
     <Router>
-      <Header pages={pages} activePage={activePage} navOpen={navOpen} handleNavClick={() => navClickHandler("hamburger")} />
+      <Header pages={pages} navOpen={navOpen} handleNavClick={() => navClickHandler("hamburger")} />
       <Routes>
+        <Route
+          path={"/"} 
+          element={
+            <RouteWrapper 
+              element={pages.home.element} 
+              onEnter={(path) => navClickHandler(path.slice(1))}
+            />
+          } 
+        />
         {Object.entries(pages).map(([key, { element }]) => (
           <Route 
             key={key} 

@@ -9,7 +9,7 @@ import {
 
 
 function Header({ pages: pages, navOpen, handleNavClick }: 
-    { pages: PageDirectory, activePage: string, navOpen: Boolean, handleNavClick: () => void; }) {
+    { pages: PageDirectory, navOpen: Boolean, handleNavClick: () => void; }) {
     const location = useLocation();
     const currentPath = location.pathname.slice(1);
 
@@ -32,7 +32,7 @@ function Header({ pages: pages, navOpen, handleNavClick }:
                         })}
                     </ul>
                 ) : (
-                    <h1>{currentPath}</h1>
+                    <h1>{currentPath || "home"}</h1>
                 )}
                 
                 <HamburgerButton open={navOpen} handleNavClick={handleNavClick}></HamburgerButton>
