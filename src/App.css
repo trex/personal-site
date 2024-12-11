@@ -30,8 +30,12 @@ header nav h1 {
   text-align: center;
 }
 
-header nav img {
+.logo-link {
   height: 100%;
+  
+  img {
+    height: 100%;
+  }
 }
 
 header nav ul {
@@ -70,15 +74,20 @@ header nav ul {
 
 .nav-item {
   cursor: pointer;
+
+  .active {
+    color: darkviolet;
+    font-weight: 700;
+  }
+
+  a {
+    text-decoration: none;
+  }
 }
 
 .nav-item:hover {
   color: rgb(35, 35, 35);
   background-color: rgba(200, 200, 200, 0.5);
-}
-
-.nav-item.active {
-  color: darkviolet;
 }
 
 .site-content {
@@ -232,7 +241,11 @@ header nav ul {
   margin: 20px 20px 0 20px;
 }
 
-.contact-form #message, #subject {
+.contact-children {
+  margin: 20px;
+}
+
+.contact-form #email, #message, #subject {
   width: 95%;
   padding: 20px 0 20px 20px;
   margin: 10px 20px 0 20px;

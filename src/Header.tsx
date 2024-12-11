@@ -1,27 +1,38 @@
 import HamburgerButton from './HamburgerButton';
 import PageDirectory from './PageDirectory';
 import mushroomBuds from '/art/mushroom-buds.png';
+import {
+    Link,
+    NavLink,
+    useLocation
+  } from "react-router-dom";
 
 
-function Header({ pages: pages, activePage, navOpen, handleNavClick }: 
+function Header({ pages: pages, navOpen, handleNavClick }: 
     { pages: PageDirectory, activePage: string, navOpen: Boolean, handleNavClick: () => void; }) {
+    const location = useLocation();
+    const currentPath = location.pathname.slice(1);
+
     return (
         <header>
             <nav>
-                <img className="nav-item" 
-                    onClick={pages.home.handleOnClick} 
-                    src={mushroomBuds} alt="Mushroom Buddies" />
+                <Link className="logo-link" to="/home">
+                    <img src={mushroomBuds} alt="Mushroom Buddies"/>
+                </Link>
                 {navOpen ? (
                     <ul>
-                        {Object.keys(pages).map((page) => 
-                            <li className={`nav-item ${activePage===page ? "active" : ""}`} 
-                            key={page} onClick={pages[page].handleOnClick}>
-                                {page}
-                            </li>
-                        )}
+                        {Object.entries(pages).map(([key, page]) => {
+                            if (!page.hidden) {
+                                return <li className="nav-item" key={key}>
+                                    <NavLink to={`/${key}`}>
+                                        {key}
+                                    </NavLink>
+                                </li>
+                            }
+                        })}
                     </ul>
                 ) : (
-                    <h1>{activePage}</h1>
+                    <h1>{currentPath}</h1>
                 )}
                 
                 <HamburgerButton open={navOpen} handleNavClick={handleNavClick}></HamburgerButton>

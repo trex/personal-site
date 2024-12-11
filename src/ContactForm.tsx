@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function ContactForm() {
+function ContactForm({ children }: { children?: React.ReactNode }) {
     const [successMessage, setSuccessMessage] = useState('');
 
     const handleSubmit = async (event: React.FormEvent) => {
@@ -34,7 +34,13 @@ function ContactForm() {
         <form className="contact-form" onSubmit={handleSubmit}>
             <hr></hr>
             <h1>{successMessage ? <p className="success-message">{successMessage}</p> : "say hi!" }</h1>
-            
+            <div className="contact-children">
+                {children}
+            </div>
+            <div className="contact-form-field">
+                <input type="email" name="email" id="email" required 
+                 placeholder="From email"/>
+            </div>
             <div className="contact-form-field">
                 <input type="text" name="subject" id="subject" required 
                  placeholder="Subject"/>
