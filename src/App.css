@@ -362,26 +362,29 @@ header nav ul {
 
 /* Game */
 .game-page {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-rows: 1fr 5fr 5fr;
+  grid-template-columns: 1fr;
+  height: 100vh;
+  width: 100vw;
+  gap: 12px;
 }
 
 .game-board {
-  display: flex;
-  flex-direction: column;
-}
-
-.board-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  grid-row: 2 / 3;
+  aspect-ratio: 1 / 1;
 }
 
 .board-cell {
   display: flex;
   border: 1px solid black;
-  width: 40px;
-  height: 40px;
+  aspect-ratio: 1/1;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
 
   --bg-color: rgb(200, 255, 255);
   &.clicked {
@@ -391,10 +394,10 @@ header nav ul {
 
 .selected-letters {
   display: flex;
-  gap: 20px;
-  margin-top: 30px;
+  gap: 10px;
   padding: 6px;
   align-items: center;
+  grid-row: 1 / 2;
 
   &.valid{
     border: 3px solid green;
@@ -416,9 +419,9 @@ header nav ul {
 }
 
 .score-board {
-  margin-left: 25px;
   padding: 3px;
   border: 1px solid black;
+  overflow: scroll;
   h3 {
     margin: 0;
   }
@@ -453,5 +456,20 @@ footer .social-logo {
   .project-column {
     flex: 30%;
     max-width: 33%;
+  }
+
+  .game-page {
+    width: 60vw;
+    height: 90vh;
+    grid-template-columns: 6fr 3fr;
+    grid-template-rows: 1fr 8fr 1fr;
+  }
+
+  .game-board {
+    grid-row: 2;
+  }
+
+  .score-board {
+    grid-row: 1 / 3;
   }
 }

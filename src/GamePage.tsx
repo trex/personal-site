@@ -199,38 +199,35 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
     return (
         <>
             <div className="game-page">
-                <div className="game-board">
-                    {board.map((row, i) => (
-                        <div key={`row-${i}`} className="board-row">
-                            {row.map((cell, j) => { 
-                                const letter = cell.value;
-                                const clickedCell = clickedCells.find((c) => c.x === i && c.y === j);
-                                const backgroundColor = clickedCell 
-                                    ? `rgb(${173 - (clickedCell.wordPosition * 17)}, ${216 - (clickedCell.wordPosition * 24)}, ${230 + (clickedCell.wordPosition * 25)})`
-                                    : 'rgb(0, 255, 255)';
-                                return (
-                                    <div 
-                                        key={`${cell.x}-${cell.y}`} 
-                                        ref={cellRefs.current[i][j]}
-                                        style={{ "--bg-color": backgroundColor } as React.CSSProperties}
-                                        className={`board-cell ${clickedCell ? "clicked" : ''}`}
-                                        onClick={() => handleCellClick(cell)}
-                                    >
-                                        {letter}
-                                    </div>
-                                )
-                            })}
+                <div className={`selected-letters ${validWord ? "valid" : "invalid"}`}>
+                    {clickedCells.map((c, i) => (
+                        <div key={i} className="selected-letter">
+                            {c.value} 
                         </div>
                     ))}
-                    <div className={`selected-letters ${validWord ? "valid" : "invalid"}`}>
-                        {clickedCells.map((c, i) => (
-                            <div key={i} className="selected-letter">
-                                {c.value} 
-                            </div>
-                        ))}
-                        <button className={`submit ${validWord ? "valid" : "invalid"}`} onClick={handleSubmit}>{validWord ? "✅" : "❌"}</button>
-                    </div>
-                    
+                    <button className={`submit ${validWord ? "valid" : "invalid"}`} onClick={handleSubmit}>{validWord ? "✅" : "❌"}</button>
+                </div>
+                <div className="game-board">
+                    {board.flatMap((row, i) => 
+                        row.map((cell, j) => { 
+                            const letter = cell.value;
+                            const clickedCell = clickedCells.find((c) => c.x === i && c.y === j);
+                            const backgroundColor = clickedCell 
+                                ? `rgb(${173 - (clickedCell.wordPosition * 17)}, ${216 - (clickedCell.wordPosition * 24)}, ${230 + (clickedCell.wordPosition * 25)})`
+                                : 'rgb(0, 255, 255)';
+                            return (
+                                <div 
+                                    key={`${cell.x}-${cell.y}`} 
+                                    ref={cellRefs.current[i][j]}
+                                    style={{ "--bg-color": backgroundColor } as React.CSSProperties}
+                                    className={`board-cell ${clickedCell ? "clicked" : ''}`}
+                                    onClick={() => handleCellClick(cell)}
+                                >
+                                    {letter}
+                                </div>
+                            )
+                        })
+                    )}  
                 </div>
                 <div className='score-board'>
                     <h3>Score: [{calculateScore()}]</h3>
