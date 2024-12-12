@@ -99,6 +99,12 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
     };
     
     const handleSubmit = () => {
+        // Clear selected letters if not a valid word
+        if (!validWord) {
+            setClickedCells([]);
+            return;
+        }
+
         const word = clickedCells.map((cell) => {
             return cell.value;
         }).join('');
