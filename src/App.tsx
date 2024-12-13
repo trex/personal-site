@@ -26,11 +26,10 @@ function RouteWrapper({ element, onEnter }: { element: React.ReactNode, onEnter:
 
 function App() {
   const [navOpen, setNavOpen] = useState(false);
-  const navClickHandler = (pageName: string) => {
-    setNavOpen(!navOpen);
-
-    // On the root path, also make sure the nav is closed
-    if (pageName === "" || pageName === "home") {
+  const navClickHandler = (navItem: string) => {
+    if (navItem === "🍔") {
+      setNavOpen(true);
+    } else {
       setNavOpen(false);
     }
   }
@@ -56,7 +55,7 @@ function App() {
 
   return (
     <Router>
-      <Header pages={pages} navOpen={navOpen} handleNavClick={() => navClickHandler("hamburger")} />
+      <Header pages={pages} navOpen={navOpen} handleNavClick={() => navClickHandler("🍔")} />
       <Routes>
         <Route
           path={"/"} 
