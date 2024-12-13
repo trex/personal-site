@@ -66,7 +66,7 @@ const getColorFromPosition = (position: number): string => {
     }
 
     return colors[position] !== undefined ? 
-        hslString(colors[position], 100, 75) :
+        hslString(colors[position], 100, 50) :
         // Default to grey if position is out of bounds
         hslString(0, 0, 65);
 };
@@ -243,7 +243,7 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
                             const clickedCell = clickedCells.find((c) => c.x === i && c.y === j);
                             const backgroundColor = clickedCell 
                                 ? getColorFromPosition(clickedCell.wordPosition)
-                                : 'rgb(0, 255, 255)';
+                                : 'rgb(255, 255, 255)';
                             return (
                                 <div 
                                     key={`${cell.x}-${cell.y}`} 

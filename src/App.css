@@ -379,6 +379,8 @@ header nav ul {
 }
 
 .board-cell {
+  --bg-color: white;
+
   display: flex;
   border: 1px solid rgb(206, 205, 205);
   aspect-ratio: 1/1;
@@ -386,8 +388,8 @@ header nav ul {
   justify-content: center;
   border-radius: 50%;
   font-size: 3rem;
+  background: radial-gradient(circle at 10% 10%, white, var(--bg-color), #d2d2d2);
 
-  --bg-color: rgb(200, 255, 255);
   &.clicked {
     background-color: var(--bg-color);
     font-weight: 700;
