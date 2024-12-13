@@ -258,7 +258,7 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
                             {c.value} 
                         </div>
                     ))}
-                    <p>[{calculateWordScore(clickedCells.map((c) => c.value).join(''))}]</p>
+                    <p className='selected-letter-score'>[{calculateWordScore(clickedCells.map((c) => c.value).join(''))}]</p>
                     <button className={`submit ${validWord ? "valid" : "invalid"}`} onClick={handleSubmit}>{validWord ? "✅" : "❌"}</button>
                 </div>
                 <div className="game-board">

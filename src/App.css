@@ -417,6 +417,7 @@ header nav ul {
   padding: 6px;
   align-items: center;
   grid-row: 1 / 2;
+  border-radius: 16px;
 
   &.valid{
     border: 3px solid green;
@@ -430,11 +431,17 @@ header nav ul {
     font-weight: 700;
     font-size: 1.5em;
   }
+
+  .selected-letter-score {
+    margin-left: auto;
+  }
 }
 
 .submit {
   margin-left: auto;
   height: fit-content;
+  padding: 10px;
+  margin-left: 0;
 }
 
 .score-board {
