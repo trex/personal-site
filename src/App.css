@@ -380,15 +380,17 @@ header nav ul {
 
 .board-cell {
   display: flex;
-  border: 1px solid black;
+  border: 1px solid rgb(206, 205, 205);
   aspect-ratio: 1/1;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  font-size: 3rem;
 
   --bg-color: rgb(200, 255, 255);
   &.clicked {
     background-color: var(--bg-color);
+    font-weight: 700;
   }
 }
 
@@ -420,7 +422,7 @@ header nav ul {
 
 .score-board {
   padding: 3px;
-  border: 1px solid black;
+  border: 1px solid rgb(206, 205, 205);
   overflow: scroll;
   h3 {
     margin: 0;
@@ -467,6 +469,10 @@ footer .social-logo {
 
   .game-board {
     grid-row: 2;
+  }
+
+  .board-cell {
+    font-size: 5rem;
   }
 
   .score-board {

@@ -47,6 +47,29 @@ function randomLetter(): string {
     return weightedPool[Math.floor(Math.random() * weightedPool.length)];
 }
 
+const getColorFromPosition = (position: number): string => {
+    const colors = [
+        0,   // Red
+        25,  // Safety Orange
+        54,  // Golden Yellow
+        109, // Harlequin
+        176, // Aqua
+        225, // Navy Blue
+        264, // Electric Indigo
+        280, // Electric Purple
+        304, // Magenta
+        336  // Vivid Pink
+    ];
+
+    function hslString(hue: number, saturation: number, lightness: number): string {
+        return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    }
+
+    return colors[position] !== undefined ? 
+        hslString(colors[position], 100, 75) :
+        // Default to grey if position is out of bounds
+        hslString(0, 0, 65);
+};
 
 export default function GamePage({ rows, cols }: { rows: number, cols: number }) {
     const [dictionary, setDictionary] = useState<Dictionary>();
@@ -219,7 +242,7 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
                             const letter = cell.value;
                             const clickedCell = clickedCells.find((c) => c.x === i && c.y === j);
                             const backgroundColor = clickedCell 
-                                ? `rgb(${173 - (clickedCell.wordPosition * 17)}, ${216 - (clickedCell.wordPosition * 24)}, ${230 + (clickedCell.wordPosition * 25)})`
+                                ? getColorFromPosition(clickedCell.wordPosition)
                                 : 'rgb(0, 255, 255)';
                             return (
                                 <div 
