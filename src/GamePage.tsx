@@ -1,4 +1,4 @@
-import { createRef, useEffect, useRef, useState } from 'react';
+import { createRef, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Dictionary from './dictionary';
 import ContactForm from './ContactForm';
 
@@ -14,17 +14,31 @@ interface ScoredWord {
     score: number
 }
 
-const letterFrequencies = {
+const letterFrequencies: Record<string, number> = {
     a: 8, b: 2, c: 2, d: 4, e: 12, f: 2, g: 3, h: 2, i: 8,
     j: 1, k: 1, l: 4, m: 2, n: 6, o: 8, p: 2, q: 1, r: 6,
     s: 4, t: 6, u: 4, v: 2, w: 2, x: 1, y: 2, z: 1
 };
+
+const MAX_LETTER_FREQUENCY: number = Math.max(...Object.values(letterFrequencies));
 
 const weightedPool: Array<string> = [];
 for (const [letter, count] of Object.entries(letterFrequencies)) {
     for (let i = 0; i < count; i++) {
         weightedPool.push(letter);
     }
+}
+
+const calculateLetterScore = (letter: string): number => {
+    return Math.floor(MAX_LETTER_FREQUENCY / letterFrequencies[letter]);
+}
+
+const calculateWordScore = (word: string): number => {
+    let score = 0;
+    for (let letter of word) {
+        score += calculateLetterScore(letter);
+    }
+    return score;
 }
 
 function initGameBoard(rows: number, cols: number) {
@@ -87,6 +101,18 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
         setDictionary(new Dictionary());
     },[])
 
+    useLayoutEffect(() => {
+        // Reset the transform style for all cells to prevent bounce effect
+        for (let row = 0; row < board.length; row++) {
+            for (let column = 0; column < board[row].length; column++) {
+                const ref = cellRefs.current[row][column];
+                if (ref.current) {
+                    ref.current.style.transform = "initial"; // Reset transform
+                }
+            }
+        }
+    },[board])
+
     const isValidWord = (word: string): boolean => {
         return dictionary?.searchKey(word) ? true : false;
     }
@@ -137,7 +163,7 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
                 ...scoredWords,
                 {
                     word: word,
-                    score: word.length
+                    score: calculateWordScore(word)
                 }
             ])
             
@@ -178,9 +204,7 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
                             fallingAnimations.push(
                                 new Promise(resolve => {
                                     const handleTransitionEnd = () => {
-                                        ref.current!.style.transform = "";
                                         targetRef.current!.textContent = topPointerCell.value;
-                                        ref.current!.textContent = "";
                                         ref.current!.removeEventListener("transitionend", handleTransitionEnd); // Clean up listener
                                         resolve();
                                     };
@@ -196,17 +220,17 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
                 }
             }
 
-            // Replace the empty cells from the top
-            for (let row = 0; row < newBoard.length; row++) {
-                for (let column = 0; column < newBoard[row].length; column++) {
-                    if (newBoard[row][column].value === '') {
-                        newBoard[row][column].value = randomLetter();
-                    }
-                }
-            }
-
             // Wait for all animations to complete, then update state
             Promise.all(fallingAnimations).then(() => {
+                // Replace the empty cells from the top
+                for (let row = 0; row < newBoard.length; row++) {
+                    for (let column = 0; column < newBoard[row].length; column++) {
+                        if (newBoard[row][column].value === '') {
+                            newBoard[row][column].value = randomLetter();
+                        }
+                    }
+                }
+
                 setClickedCells([]);
                 setValidWord(false);
                 setBoard(newBoard);
@@ -219,7 +243,7 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
         }
     }
 
-    const calculateScore = ():number => {
+    const calculateGameScore = ():number => {
         return scoredWords.reduce((accumulator, current) => {
             return accumulator + current.score;
         }, 0);
@@ -234,6 +258,7 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
                             {c.value} 
                         </div>
                     ))}
+                    <p>[{calculateWordScore(clickedCells.map((c) => c.value).join(''))}]</p>
                     <button className={`submit ${validWord ? "valid" : "invalid"}`} onClick={handleSubmit}>{validWord ? "✅" : "❌"}</button>
                 </div>
                 <div className="game-board">
@@ -246,26 +271,34 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
                                 : 'rgb(255, 255, 255)';
                             return (
                                 <div 
-                                    key={`${cell.x}-${cell.y}`} 
-                                    ref={cellRefs.current[i][j]}
+                                    key={`cell-${cell.x}-${cell.y}`} 
                                     style={{ "--bg-color": backgroundColor } as React.CSSProperties}
                                     className={`board-cell ${clickedCell ? "clicked" : ''}`}
                                     onClick={() => handleCellClick(cell)}
                                 >
-                                    {letter}
+                                    <div ref={cellRefs.current[i][j]} key={`letter-${cell.x}-${cell.y}`} className="letter">{letter}</div>
+                                    <div key={`letter-score-${cell.x}-${cell.y}`} className="letter-score">{calculateLetterScore(letter) || ""}</div>
                                 </div>
                             )
                         })
-                    )}  
+                    )}
                 </div>
                 <div className='score-board'>
-                    <h3>Score: [{calculateScore()}]</h3>
+                    <h3>Score: [{calculateGameScore()}]</h3>
                     <hr></hr>
                     {scoredWords.slice().reverse().map((scoredWord, i) => {
                         return (
                             <div key={`scored-word-${i}`} className='scored-word'>[{scoredWord.score}] {scoredWord.word}</div>
                         )
                     })}
+                </div>
+                <div className='game-info message'>
+                    {
+                        `This game is in active development and is being updated frequently (as of December 13, 2024). If you want to see the source code and/or submit any issues you can find it on my GitHub page, linked below.  If you have any thoughts and honest critical feedback about the game, please drop me a message below!
+                        Thanks for playing,
+                        
+                        -🫶🏻T`
+                    }
                 </div>
             </div>
             
