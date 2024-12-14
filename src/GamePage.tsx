@@ -42,7 +42,7 @@ const calculateWordScore = (word: string): number => {
 }
 
 function initGameBoard(rows: number, cols: number) {
-    let board = new Array<Array<BoardCell>>(4);
+    let board = new Array<Array<BoardCell>>(rows);
     for (let i = 0; i < rows; i++) {
         board[i] = new Array<BoardCell>(cols);
         for (let j = 0; j < cols; j++) {
@@ -261,7 +261,8 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
                     <p className='selected-letter-score'>[{calculateWordScore(clickedCells.map((c) => c.value).join(''))}]</p>
                     <button className={`submit ${validWord ? "valid" : "invalid"}`} onClick={handleSubmit}>{validWord ? "✅" : "❌"}</button>
                 </div>
-                <div className="game-board">
+                <div className="game-board"
+                    style={{"--columns-count": cols} as React.CSSProperties}>
                     {board.flatMap((row, i) => 
                         row.map((cell, j) => { 
                             const letter = cell.value;
