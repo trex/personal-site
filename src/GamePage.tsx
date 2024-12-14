@@ -1,13 +1,8 @@
 import { createRef, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Dictionary from './dictionary';
 import ContactForm from './ContactForm';
-
-interface BoardCell {
-    x: number,
-    y: number,
-    wordPosition: number,
-    value: string
-}
+import GameBoard, { BoardCell } from './GameBoard';
+import { initGameBoard } from './GameBoard';
 
 interface ScoredWord {
     word: string,
@@ -19,6 +14,10 @@ const letterFrequencies: Record<string, number> = {
     j: 1, k: 1, l: 4, m: 2, n: 6, o: 8, p: 2, q: 1, r: 6,
     s: 4, t: 6, u: 4, v: 2, w: 2, x: 1, y: 2, z: 1
 };
+
+function randomLetter(): string {
+    return weightedPool[Math.floor(Math.random() * weightedPool.length)];
+}
 
 const MAX_LETTER_FREQUENCY: number = Math.max(...Object.values(letterFrequencies));
 
@@ -41,54 +40,10 @@ const calculateWordScore = (word: string): number => {
     return score;
 }
 
-function initGameBoard(rows: number, cols: number) {
-    let board = new Array<Array<BoardCell>>(rows);
-    for (let i = 0; i < rows; i++) {
-        board[i] = new Array<BoardCell>(cols);
-        for (let j = 0; j < cols; j++) {
-            board[i][j] = {
-                x: i,
-                y: j,
-                wordPosition: -1,
-                value: randomLetter(),
-            };
-        }    
-    }
-    return board;
-}
-
-function randomLetter(): string {
-    return weightedPool[Math.floor(Math.random() * weightedPool.length)];
-}
-
-const getColorFromPosition = (position: number): string => {
-    const colors = [
-        0,   // Red
-        25,  // Safety Orange
-        54,  // Golden Yellow
-        109, // Harlequin
-        176, // Aqua
-        225, // Navy Blue
-        264, // Electric Indigo
-        280, // Electric Purple
-        304, // Magenta
-        336  // Vivid Pink
-    ];
-
-    function hslString(hue: number, saturation: number, lightness: number): string {
-        return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-    }
-
-    return colors[position] !== undefined ? 
-        hslString(colors[position], 100, 50) :
-        // Default to grey if position is out of bounds
-        hslString(0, 0, 65);
-};
-
 export default function GamePage({ rows, cols }: { rows: number, cols: number }) {
     const [dictionary, setDictionary] = useState<Dictionary>();
     const [clickedCells, setClickedCells] = useState<Array<BoardCell>>([]);
-    const [board, setBoard] = useState(initGameBoard(rows, cols));
+    const [board, setBoard] = useState(initGameBoard(rows, cols, randomLetter));
     const [validWord, setValidWord] = useState(false);
     const [scoredWords, setScoredWords] = useState<Array<ScoredWord>>([]);
     const cellRefs = useRef<Array<Array<React.RefObject<HTMLDivElement>>>>(
@@ -115,6 +70,12 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
 
     const isValidWord = (word: string): boolean => {
         return dictionary?.searchKey(word) ? true : false;
+    }
+
+    const calculateGameScore = ():number => {
+        return scoredWords.reduce((accumulator, current) => {
+            return accumulator + current.score;
+        }, 0);
     }
 
     const handleCellClick = (cell: BoardCell) => {
@@ -243,12 +204,6 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
         }
     }
 
-    const calculateGameScore = ():number => {
-        return scoredWords.reduce((accumulator, current) => {
-            return accumulator + current.score;
-        }, 0);
-    }
-
     return (
         <>
             <div className="game-page">
@@ -261,29 +216,8 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
                     <p className='selected-letter-score'>[{calculateWordScore(clickedCells.map((c) => c.value).join(''))}]</p>
                     <button className={`submit ${validWord ? "valid" : "invalid"}`} onClick={handleSubmit}>{validWord ? "✅" : "❌"}</button>
                 </div>
-                <div className="game-board"
-                    style={{"--columns-count": cols} as React.CSSProperties}>
-                    {board.flatMap((row, i) => 
-                        row.map((cell, j) => { 
-                            const letter = cell.value;
-                            const clickedCell = clickedCells.find((c) => c.x === i && c.y === j);
-                            const backgroundColor = clickedCell 
-                                ? getColorFromPosition(clickedCell.wordPosition)
-                                : 'rgb(255, 255, 255)';
-                            return (
-                                <div 
-                                    key={`cell-${cell.x}-${cell.y}`} 
-                                    style={{ "--bg-color": backgroundColor } as React.CSSProperties}
-                                    className={`board-cell ${clickedCell ? "clicked" : ''}`}
-                                    onClick={() => handleCellClick(cell)}
-                                >
-                                    <div ref={cellRefs.current[i][j]} key={`letter-${cell.x}-${cell.y}`} className="letter">{letter}</div>
-                                    <div key={`letter-score-${cell.x}-${cell.y}`} className="letter-score">{calculateLetterScore(letter) || ""}</div>
-                                </div>
-                            )
-                        })
-                    )}
-                </div>
+                <GameBoard cols={cols} board={board} clickedCells={clickedCells} handleCellClick={handleCellClick} 
+                    cellRefs={cellRefs} calculateLetterScore={calculateLetterScore} />
                 <div className='score-board'>
                     <h3>Score: [{calculateGameScore()}]</h3>
                     <hr></hr>
