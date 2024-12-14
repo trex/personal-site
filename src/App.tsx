@@ -48,7 +48,7 @@ function App() {
       hidden: false,
     },
     "game": {
-      element: <GamePage rows={4} cols={4} />,
+      element: <GamePage rows={6} cols={6} />,
       hidden: false,
     },
   };
