@@ -3,47 +3,19 @@ import Dictionary from './dictionary';
 import ContactForm from './ContactForm';
 import GameBoard, { BoardCell } from './GameBoard';
 import { initGameBoard } from './GameBoard';
+import Alphabet from './alphabet';
 
 interface ScoredWord {
     word: string,
     score: number
 }
 
-const letterFrequencies: Record<string, number> = {
-    a: 8, b: 2, c: 2, d: 4, e: 12, f: 2, g: 3, h: 2, i: 8,
-    j: 1, k: 1, l: 4, m: 2, n: 6, o: 8, p: 2, q: 1, r: 6,
-    s: 4, t: 6, u: 4, v: 2, w: 2, x: 1, y: 2, z: 1
-};
-
-function randomLetter(): string {
-    return weightedPool[Math.floor(Math.random() * weightedPool.length)];
-}
-
-const MAX_LETTER_FREQUENCY: number = Math.max(...Object.values(letterFrequencies));
-
-const weightedPool: Array<string> = [];
-for (const [letter, count] of Object.entries(letterFrequencies)) {
-    for (let i = 0; i < count; i++) {
-        weightedPool.push(letter);
-    }
-}
-
-const calculateLetterScore = (letter: string): number => {
-    return Math.floor(MAX_LETTER_FREQUENCY / letterFrequencies[letter]);
-}
-
-const calculateWordScore = (word: string): number => {
-    let score = 0;
-    for (let letter of word) {
-        score += calculateLetterScore(letter);
-    }
-    return score;
-}
+const alphabet: Alphabet = new Alphabet(Alphabet.Languages.ENGLISH);
 
 export default function GamePage({ rows, cols }: { rows: number, cols: number }) {
     const [dictionary, setDictionary] = useState<Dictionary>();
     const [clickedCells, setClickedCells] = useState<Array<BoardCell>>([]);
-    const [board, setBoard] = useState(initGameBoard(rows, cols, randomLetter));
+    const [board, setBoard] = useState(initGameBoard(rows, cols, () => alphabet.randomLetter()));
     const [validWord, setValidWord] = useState(false);
     const [scoredWords, setScoredWords] = useState<Array<ScoredWord>>([]);
     const cellRefs = useRef<Array<Array<React.RefObject<HTMLDivElement>>>>(
@@ -52,6 +24,18 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
         )
     );
     
+    const letterFrequencies = alphabet.getLetterFrequencies();
+    const calculateLetterScore = (letter: string): number => {
+        return Math.floor(alphabet.getMaxLetterFrequency() / letterFrequencies[letter]);
+    }
+    const calculateWordScore = (word: string): number => {
+        let score = 0;
+        for (let letter of word) {
+            score += calculateLetterScore(letter);
+        }
+        return score;
+    }
+
     useEffect(() => {
         setDictionary(new Dictionary());
     },[])
@@ -187,7 +171,7 @@ export default function GamePage({ rows, cols }: { rows: number, cols: number })
                 for (let row = 0; row < newBoard.length; row++) {
                     for (let column = 0; column < newBoard[row].length; column++) {
                         if (newBoard[row][column].value === '') {
-                            newBoard[row][column].value = randomLetter();
+                            newBoard[row][column].value = alphabet.randomLetter();
                         }
                     }
                 }
